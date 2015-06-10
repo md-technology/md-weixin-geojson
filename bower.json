@@ -1,0 +1,16 @@
+{
+  "name": "md-weixin-geojson",
+  "version": "0.1.0",
+  "devDependencies": {
+    "angular": "~1.2",
+    "angular-mocks": "~1.2",
+    "bootstrap": "~3.1",
+    "angular-bootstrap": "~0.10.0",
+    "angular-ui-router": "~0.2"
+  },
+  "dependencies": {
+    "leaflet": "0.7.3",
+    "restangular": "1.5.1",
+    "turf": "~2.0.2"
+  }
+}
