@@ -1,40 +1,44 @@
-angular.module( 'md-weixin-geojson', [
+angular.module('md-weixin-geojson', [
     'templates-app',
     'templates-common',
     'ui.router',
     'leaflet-directive',
     'app.core',
-    'app.geojson'
+    'app.geojson',
+    'app.components'
 ])
+//.value('serverBaseUrl', 'http://localhost:8080')
+    .value('serverBaseUrl', 'http://www.photoshows.cn')
+    .config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
+        function myAppConfig($stateProvider, $urlRouterProvider, $locationProvider) {
 
-.config( ['$stateProvider', '$urlRouterProvider',
-      function myAppConfig ( $stateProvider, $urlRouterProvider ) {
+            //$locationProvider.html5Mode(false).hashPrefix('!');
 
-          $stateProvider
-              .state('app', {
-                  abstract: true,
-                  url: '',
-                  template: '<div ui-view flex layout-fill layout="column"></div>',
-                  controller: function(){},
-                  resolve: {}
-              })
-          ;
-}])
+            $stateProvider
+                .state('app', {
+                    abstract: true,
+                    url: '',
+                    template: '<div ui-view flex layout-fill layout="column"></div>',
+                    controller: function () {
+                    },
+                    resolve: {}
+                })
+            ;
+        }])
+    .value('staticCtx', 'http://static.photoshows.cn')
+    //.value('staticCtx', 'http://test.photoshows.cn')
+    .run(function run() {
+    })
+    .controller('AppCtrl', ['$scope', 'leafletData', function AppCtrl($scope, leafletData) {
 
-.run( function run () {
-})
-
-.controller( 'AppCtrl', ['$scope', 'leafletData', function AppCtrl ( $scope, leafletData ) {
-
-        $scope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams){
+        $scope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
             //if ( angular.isDefined( toState.data.pageTitle ) ) {
             //  $scope.pageTitle = toState.data.pageTitle + ' | ngBoilerplate' ;
             //}
-          });
+        });
 
         angular.extend($scope, {
-            defaults: {
-            },
+            defaults: {},
             options: {
                 drawControl: true
                 //editable: true
@@ -53,27 +57,36 @@ angular.module( 'md-weixin-geojson', [
             }
         });
 
-      //var layer = L.tileLayer.provider("MapBox.Streets");
-      var layer = L.tileLayer.provider("AMap.Base");
+        var controlLayers = L.control.layersManager({},{},{autoZIndex: false});
+        controlLayers.addMap({
+            id: "1",
+            name: "高德地图",
+            baseLayer: 'AMap.Base'
+        });
 
-      leafletData.getMap('main-map').then(function(map) {
-        layer.addTo(map);
-      });
+        leafletData.getMap('main-map').then(function (map) {
+            controlLayers.addTo(map);
+        });
+
+        $scope.setBaseLayer = function (map) {
+            controlLayers.addMap(map);
+        };
 
         $scope.geojson = {};
-        $scope.setGeojson = function(geojson) {
+        $scope.setGeojson = function (geojson) {
             $scope.geojson = geojson;
         };
 
-        $scope.getMap = function() {
+        $scope.getMap = function () {
             return leafletData.getMap('main-map');
         };
 
-        $scope.setPageTitle = function(title) {
+        $scope.setPageTitle = function (title) {
             $scope.pageTitle = title;
         };
 
-}])
+
+    }])
 
 ;
 

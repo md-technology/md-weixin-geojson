@@ -6,16 +6,76 @@
     'use strict';
 
     angular.module('app.core', ['restangular'])
-        //.value('serverBaseUrl', 'http://localhost:8080')
-        .value('serverBaseUrl', 'http://www.photoshows.cn')
+
         .factory('ApiRestangular', ['Restangular', 'serverBaseUrl',
             function(Restangular, serverBaseUrl) {
                 return Restangular.withConfig(function(RestangularConfigurer) {
                     RestangularConfigurer.setBaseUrl(serverBaseUrl+'/api/rest');
                 });
             }])
-        .factory('GeoJSONs', ['ApiRestangular', GeoJSONServiceFactory]);
+        .factory('GeoJSONs', ['ApiRestangular', GeoJSONServiceFactory])
+        .factory('Albums',   ['ApiRestangular', AlbumsServiceFactory]);
 
+    function AlbumsServiceFactory(Restangular) {
+        var service = Restangular.service('album');
+        return {
+            get: get,
+            getBy: getBy,
+            create: create,
+            modify: modify,
+            remove: remove,
+            setCover: setCover,
+            addPhotos: addPhotos,
+            removePhotos: removePhotos,
+            deletePhotos: deletePhotos,
+            modifyFC: modifyFC,
+            removeFeature: removeFeature
+        };
+
+        function get(id) {
+            return service.one(id).get();
+        }
+
+        function getBy(username, name) {
+            return service.one().get({username: username, name: name});
+        }
+
+        function create(album) {
+            return service.one().post('', album);
+        }
+
+        function modify(id, album) {
+            return service.one(id).post('', album);
+        }
+
+        function remove(id) {
+            return service.one(id).remove();
+        }
+
+        function setCover(id, cover) {
+            return service.one(id).post('cover', cover);
+        }
+
+        function addPhotos(id, photoIds) {
+            return service.one(id).post('add', photoIds);
+        }
+
+        function removePhotos(id, photoIds) {
+            return service.one(id).post('remove', photoIds);
+        }
+
+        function deletePhotos(id, photoIds) {
+            return service.one(id).post('delete', photoIds);
+        }
+
+        function modifyFC(id, fc) {
+            return service.one(id).post('fc', fc);
+        }
+
+        function removeFeature(id, featureId) {
+            return service.one(id).one('fc', featureId).remove();
+        }
+    }
     function GeoJSONServiceFactory(Restangular) {
         var service = Restangular.service('geojson');
 
