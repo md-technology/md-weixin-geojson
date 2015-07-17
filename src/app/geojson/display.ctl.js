@@ -94,6 +94,9 @@
             $scope.getMap().then(function(map) {
                 clusterControl = new ClusterControl(map, album.title);
                 clusterControl.addPhotos(album.photos);
+                if(!album.featureCollection) {
+                    clusterControl.fitBounds();
+                }
             });
         }
 
@@ -144,6 +147,10 @@
                     },1000);
                 });
             }
+        });
+
+        $scope.$on('$destroy', function() {
+            clusterControl.remove();
         });
     }
 

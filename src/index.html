@@ -20,6 +20,8 @@
 
   </head>
   <body>
+  <md-progress-linear class="view-loading-progress"
+                      md-mode="indeterminate" ng-if="viewLoading"></md-progress-linear>
     <leaflet id="main-map" defaults="defaults" options="options" center="center"
              geojson="geojson"
              layers="layers"

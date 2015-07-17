@@ -66,13 +66,19 @@ module.exports = {
       'vendor/angular-bootstrap/ui-bootstrap-tpls.min.js',
       'vendor/angular-ui-router/release/angular-ui-router.js',
       'vendor/angular-ui-utils/modules/route/route.js',
+      'vendor/angular-animate/angular-animate.min.js',
+      'vendor/angular-aria/angular-aria.min.js',
+      'vendor/angular-material/angular-material.js',
       'vendor/leaflet/dist/leaflet.js',
       'vendor/lodash/lodash.min.js',
       'vendor/restangular/dist/restangular.min.js',
       'vendor/Leaflet.markercluster/dist/leaflet.markercluster.js',
     ],
     css: [
-      'vendor/leaflet/dist/leaflet.css'
+      'vendor/angular-material/angular-material.css',
+      'vendor/leaflet/dist/leaflet.css',
+      'vendor/Leaflet.markercluster/dist/MarkerCluster.css',
+      'vendor/Leaflet.markercluster/dist/MarkerCluster.Default.css',
     ],
     assets: [
     ]
